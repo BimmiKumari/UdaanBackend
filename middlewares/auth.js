@@ -34,14 +34,14 @@ exports.auth = async (req, res, next) => {
 		});
 	}
 };
-exports.isStudent = async (req, res, next) => {
+exports.isSINGLEMOTHER = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
-		if (userDetails.accountType !== "Student") {
+		if (userDetails.accountType !== "SINGLEMOTHER") {
 			return res.status(401).json({
 				success: false,
-				message: "This is a Protected Route for Students",
+				message: "This is a Protected Route for SINGLEMOTHERs",
 			});
 		}
 		next();
@@ -68,17 +68,17 @@ exports.isAdmin = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
-exports.isInstructor = async (req, res, next) => {
+exports.isNGOSUPPORT = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 		console.log(userDetails);
 
 		console.log(userDetails.accountType);
 
-		if (userDetails.accountType !== "Instructor") {
+		if (userDetails.accountType !== "NGOSUPPORT") {
 			return res.status(401).json({
 				success: false,
-				message: "This is a Protected Route for Instructor",
+				message: "This is a Protected Route for NGOSUPPORT",
 			});
 		}
 		next();

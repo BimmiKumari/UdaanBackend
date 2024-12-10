@@ -68,16 +68,15 @@ exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
       <body>
           <div class="container">
               <a href="http://localhost:3000/"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png"
-                      alt="RoundTable Logo"></a>
-              <div class="message">Course Payment Confirmation</div>
+                      alt="Udaan Logo"></a>
+              <div class="message">Training Payment Confirmation</div>
               <div class="body">
                   <p>Dear ${name},</p>
                   <p>We have received a payment of <span class='highlight'>₹${amount}</span></p>.
                   <p>Your Payment ID is <b>${paymentId}</b></p>
                   <p>Your Order ID is <b>${orderId}</b></p>
               </div>
-              <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
-                      href="mailto:info@RoundTable.com">info@RoundTable.com</a>. We are here to help!</div>
+              
           </div>
       </body>
       

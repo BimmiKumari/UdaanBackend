@@ -73,7 +73,7 @@ exports.signup = async (req, res) => {
 
    
     let approved = ""
-    approved === "Instructor" ? (approved = false) : (approved = true)
+    approved === "NGOSUPPORT" ? (approved = false) : (approved = true)
 
    
     const profileDetails = await Profile.create({

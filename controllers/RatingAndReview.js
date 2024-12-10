@@ -9,13 +9,13 @@ exports.createRating = async (req, res) => {
         
         const courseDetails = await Course.findOne(
                                     {_id:courseId,
-                                    studentsEnrolled: {$elemMatch: {$eq: userId} },
+                                    SINGLEMOTHERsEnrolled: {$elemMatch: {$eq: userId} },
                                 });
 
         if(!courseDetails) {
             return res.status(404).json({
                 success:false,
-                message:'Student is not enrolled in the course',
+                message:'SINGLEMOTHER is not enrolled in the course',
             });
         }
         

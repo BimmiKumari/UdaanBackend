@@ -34,10 +34,10 @@ exports.capturePayment = async (req, res) => {
       
       const uid = new mongoose.Types.ObjectId(userId)
       console.log("The corresponding uid is ",uid)
-      if (course.studentsEnrolled.includes(uid)) {
+      if (course.SINGLEMOTHERsEnrolled.includes(uid)) {
         return res
           .status(200)
-          .json({ success: false, message: "Student is already Enrolled" })
+          .json({ success: false, message: "SINGLEMOTHER is already Enrolled" })
       }
 
      
@@ -97,7 +97,7 @@ exports.verifyPayment = async (req, res) => {
     .digest("hex")
 
   if (expectedSignature === razorpay_signature) {
-    await enrollStudents(courses, userId, res)
+    await enrollSINGLEMOTHERs(courses, userId, res)
     return res.status(200).json({ success: true, message: "Payment Verified" })
   }
 
@@ -117,13 +117,13 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
   }
 
   try {
-    const enrolledStudent = await User.findById(userId)
+    const enrolledSINGLEMOTHER = await User.findById(userId)
 
     await mailSender(
-      enrolledStudent.email,
+      enrolledSINGLEMOTHER.email,
       `Payment Received`,
       paymentSuccessEmail(
-        `${enrolledStudent.firstname} ${enrolledStudent.lastname}`,
+        `${enrolledSINGLEMOTHER.firstname} ${enrolledSINGLEMOTHER.lastname}`,
         amount / 100,
         orderId,
         paymentId
@@ -138,7 +138,7 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
 }
 
 
-const enrollStudents = async (courses, userId, res) => {
+const enrollSINGLEMOTHERs = async (courses, userId, res) => {
   if (!courses || !userId) {
     return res
       .status(400)
@@ -150,7 +150,7 @@ const enrollStudents = async (courses, userId, res) => {
       
       const enrolledCourse = await Course.findOneAndUpdate(
         { _id: courseId },
-        { $push: { studentsEnroled: userId } },
+        { $push: { SINGLEMOTHERsEnroled: userId } },
         { new: true }
       )
 
@@ -167,7 +167,7 @@ const enrollStudents = async (courses, userId, res) => {
         completedVideos: [],
       })
       
-      const enrolledStudent = await User.findByIdAndUpdate(
+      const enrolledSINGLEMOTHER = await User.findByIdAndUpdate(
         userId,
         {
           $push: {
@@ -178,14 +178,14 @@ const enrollStudents = async (courses, userId, res) => {
         { new: true }
       )
 
-      console.log("Enrolled student: ", enrolledStudent)
+      console.log("Enrolled SINGLEMOTHER: ", enrolledSINGLEMOTHER)
      
       const emailResponse = await mailSender(
-        enrolledStudent.email,
+        enrolledSINGLEMOTHER.email,
         `Successfully Enrolled into ${enrolledCourse.courseName}`,
         courseEnrollmentEmail(
           enrolledCourse.courseName,
-          `${enrolledStudent.firstname} ${enrolledStudent.lastname}`
+          `${enrolledSINGLEMOTHER.firstname} ${enrolledSINGLEMOTHER.lastname}`
         )
       )
 

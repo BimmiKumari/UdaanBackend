@@ -7,7 +7,7 @@ const {
   getCourseDetails,
   getFullCourseDetails,
   editCourse,
-  getInstructorCourses,
+  getNGOSUPPORTCourses,
   deleteCourse,
 } = require("../controllers/Course")
 
@@ -42,20 +42,20 @@ const {
 } = require("../controllers/courseProgress");
 
 
-const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth")
-router.post("/createCourse", auth, isInstructor, createCourse)
+const { auth, isNGOSUPPORT, isSINGLEMOTHER, isAdmin } = require("../middlewares/auth")
+router.post("/createCourse", auth, isNGOSUPPORT, createCourse)
 
-router.post("/addSection", auth, isInstructor, createSection)
+router.post("/addSection", auth, isNGOSUPPORT, createSection)
 
-router.post("/updateSection", auth, isInstructor, updateSection)
+router.post("/updateSection", auth, isNGOSUPPORT, updateSection)
 
-router.post("/deleteSection", auth, isInstructor, deleteSection)
+router.post("/deleteSection", auth, isNGOSUPPORT, deleteSection)
 
-router.post("/updateSubSection", auth, isInstructor, updateSubSection)
+router.post("/updateSubSection", auth, isNGOSUPPORT, updateSubSection)
 
-router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
+router.post("/deleteSubSection", auth, isNGOSUPPORT, deleteSubSection)
 
-router.post("/addSubSection", auth, isInstructor, createSubSection)
+router.post("/addSubSection", auth, isNGOSUPPORT, createSubSection)
 
 router.get("/getAllCourses", getAllCourses)
 
@@ -63,18 +63,18 @@ router.post("/getCourseDetails", getCourseDetails)
 
 router.post("/getFullCourseDetails", auth, getFullCourseDetails)
 
-router.post("/editCourse", auth, isInstructor, editCourse)
+router.post("/editCourse", auth, isNGOSUPPORT, editCourse)
 
-router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
+router.get("/getNGOSUPPORTCourses", auth, isNGOSUPPORT, getNGOSUPPORTCourses)
 
 router.delete("/deleteCourse", deleteCourse)
 
-router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
+router.post("/updateCourseProgress", auth, isSINGLEMOTHER, updateCourseProgress);
 
-router.post("/createCategory", auth, isInstructor, createCategory)
+router.post("/createCategory", auth, isNGOSUPPORT, createCategory)
 router.get("/showAllCategories", showAllCategories)
 router.post("/getCategoryPageDetails", categoryPageDetails)
-router.post("/createRating", auth, isStudent, createRating)
+router.post("/createRating", auth, isSINGLEMOTHER, createRating)
 router.get("/getAverageRating", getAverageRating)
 router.get("/getReviews", getAllRating)
 

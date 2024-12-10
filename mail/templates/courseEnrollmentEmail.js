@@ -68,7 +68,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     <body>
         <div class="container">
             <a href="http://localhost:3000/"><img class="logo" src="https://i.ibb.co/7Xyj3PC/logo.png"
-                    alt="RoundTable Logo"></a>
+                    alt="Udaan Logo"></a>
             <div class="message">Course Registration Confirmation</div>
             <div class="body">
                 <p>Dear ${name},</p>
@@ -78,8 +78,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
                 </p>
                 <a class="cta" href="http://localhost:3000//dashboard">Go to Dashboard</a>
             </div>
-            <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
-                    href="mailto:info@RoundTable.com">info@RoundTable.com</a>. We are here to help!</div>
+           
         </div>
     </body>
     

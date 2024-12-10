@@ -12,7 +12,7 @@ exports.getAllCourses = async (req, res) => {
       }
     )
       .sort({ createdAt: -1 })
-      .populate("instructor")
+      .populate("NGOSUPPORT")
       .exec();
 
     if (!coursesDetails) {
@@ -76,7 +76,7 @@ exports.querySearch = async (req, res) => {
     //   }
     // )
     //   .sort({ createdAt: -1 })
-    //   .populate("instructor")
+    //   .populate("NGOSUPPORT")
     //   .exec();
 
     //! MongoDb search
@@ -98,18 +98,18 @@ exports.querySearch = async (req, res) => {
         $project: {
           courseName: true,
           thumbnail: true,
-          instructor: true,
+          NGOSUPPORT: true,
         },
       },
     ]);
 
     const populatedCourses = await Promise.all(
       coursesDetails.map(async (course) => {
-        const instructorId = course.instructor;
-        const instructorData = await User.findById(instructorId);
+        const NGOSUPPORTId = course.NGOSUPPORT;
+        const NGOSUPPORTData = await User.findById(NGOSUPPORTId);
         return {
           ...course,
-          instructor: [instructorData.firstname, instructorData.lastname],
+          NGOSUPPORT: [NGOSUPPORTData.firstname, NGOSUPPORTData.lastname],
         };
       })
     );
@@ -123,13 +123,13 @@ exports.querySearch = async (req, res) => {
       });
     }
 
-    const instructorDetails = await User.find(
+    const NGOSUPPORTDetails = await User.find(
       {
         $and: [
           {
             $or: [{ firstname: queryTitle }, { lastname: queryTitle }],
           },
-          { accountType: "Instructor" },
+          { accountType: "NGOSUPPORT" },
         ],
       },
       {
@@ -139,10 +139,10 @@ exports.querySearch = async (req, res) => {
       }
     ).sort({ createdAt: -1 });
 
-    if (!instructorDetails) {
+    if (!NGOSUPPORTDetails) {
       return res.status(401).json({
         success: false,
-        message: "Instructor Deatils Not Found",
+        message: "NGOSUPPORT Deatils Not Found",
       });
     }
 
@@ -201,7 +201,7 @@ exports.querySearch = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Courses Sent Successfully",
-      data: { populatedCourses, instructorDetails, autoComplete,allAutoCompleteTags },
+      data: { populatedCourses, NGOSUPPORTDetails, autoComplete,allAutoCompleteTags },
     });
   } catch (error) {
     console.log("Error While getting search courses", error);
@@ -244,7 +244,7 @@ exports.SearchpPage = async (req, res) => {
     const FullCourseDetails = await Promise.all(
       coursesDetails.map(async (course) => {
         const courseDetails = await Course.findById(course._id)
-          .populate("instructor")
+          .populate("NGOSUPPORT")
           .populate("category")
           .populate("ratingAndReviews")
           .populate({

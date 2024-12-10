@@ -53,14 +53,14 @@ exports.createCourse = async (req, res) => {
       status = "Draft"
     }
    
-    const instructorDetails = await User.findById(userId, {
-      accountType: "Instructor",
+    const NGOSUPPORTDetails = await User.findById(userId, {
+      accountType: "NGOSUPPORT",
     })
 
-    if (!instructorDetails) {
+    if (!NGOSUPPORTDetails) {
       return res.status(404).json({
         success: false,
-        message: "Instructor Details Not Found",
+        message: "NGOSUPPORT Details Not Found",
       })
     }
 
@@ -82,7 +82,7 @@ exports.createCourse = async (req, res) => {
     const newCourse = await Course.create({
       courseName,
       courseDescription,
-      instructor: instructorDetails._id,
+      NGOSUPPORT: NGOSUPPORTDetails._id,
       whatYouWillLearn: whatYouWillLearn,
       price,
       tag,
@@ -95,7 +95,7 @@ exports.createCourse = async (req, res) => {
   
     await User.findByIdAndUpdate(
       {
-        _id: instructorDetails._id,
+        _id: NGOSUPPORTDetails._id,
       },
       {
         $push: {
@@ -170,7 +170,7 @@ exports.editCourse = async (req, res) => {
       _id: courseId,
     })
       .populate({
-        path: "instructor",
+        path: "NGOSUPPORT",
         populate: {
           path: "additionalDetails",
         },
@@ -208,12 +208,12 @@ exports.getAllCourses = async (req, res) => {
         courseName: true,
         price: true,
         thumbnail: true,
-        instructor: true,
+        NGOSUPPORT: true,
         ratingAndReviews: true,
-        studentsEnrolled: true,
+        SINGLEMOTHERsEnrolled: true,
       }
     )
-      .populate("instructor")
+      .populate("NGOSUPPORT")
       .exec()
 
     return res.status(200).json({
@@ -237,7 +237,7 @@ exports.getCourseDetails = async (req, res) => {
       _id: courseId,
     })
       .populate({
-        path: "instructor",
+        path: "NGOSUPPORT",
         populate: {
           path: "additionalDetails",
         },
@@ -294,7 +294,7 @@ exports.getFullCourseDetails = async (req, res) => {
       _id: courseId,
     })
       .populate({
-        path: "instructor",
+        path: "NGOSUPPORT",
         populate: {
           path: "additionalDetails",
         },
@@ -352,26 +352,26 @@ exports.getFullCourseDetails = async (req, res) => {
 }
 
 
-exports.getInstructorCourses = async (req, res) => {
+exports.getNGOSUPPORTCourses = async (req, res) => {
   try {
     
-    const instructorId = req.user.id
+    const NGOSUPPORTId = req.user.id
 
    
-    const instructorCourses = await Course.find({
-      instructor: instructorId,
+    const NGOSUPPORTCourses = await Course.find({
+      NGOSUPPORT: NGOSUPPORTId,
     }).sort({ createdAt: -1 })
 
     
     res.status(200).json({
       success: true,
-      data: instructorCourses,
+      data: NGOSUPPORTCourses,
     })
   } catch (error) {
     console.error(error)
     res.status(500).json({
       success: false,
-      message: "Failed to retrieve instructor courses",
+      message: "Failed to retrieve NGOSUPPORT courses",
       error: error.message,
     })
   }
@@ -388,9 +388,9 @@ exports.deleteCourse = async (req, res) => {
     }
 
     
-    const studentsEnrolled = course.studentsEnroled
-    for (const studentId of studentsEnrolled) {
-      await User.findByIdAndUpdate(studentId, {
+    const SINGLEMOTHERsEnrolled = course.SINGLEMOTHERsEnroled
+    for (const SINGLEMOTHERId of SINGLEMOTHERsEnrolled) {
+      await User.findByIdAndUpdate(SINGLEMOTHERId, {
         $pull: { courses: courseId },
       })
     }

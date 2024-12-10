@@ -7,6 +7,7 @@ const courseRoutes = require("./routes/Course");
 const contactUsRoute = require("./routes/Contact");
 const database = require("./config/database");
 const searchRoute = require("./routes/Search");
+const postRouter = require("./routes/post");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const {cloudinaryConnect } = require("./config/cloudinary");
@@ -34,13 +35,13 @@ app.use(
 )
 cloudinaryConnect();
 
-//routes
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/reach", contactUsRoute);
-app.use("/api/v1/search", searchRoute)
+app.use("/api/v1/search", searchRoute);
+app.use(postRouter);
 
 app.get("/", (req, res) => {
 	return res.json({

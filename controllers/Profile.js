@@ -74,7 +74,7 @@ exports.deleteAccount = async (req, res) => {
     for (const courseId of user.courses) {
       await Course.findByIdAndUpdate(
         courseId,
-        { $pull: { studentsEnroled: id } },
+        { $pull: { SINGLEMOTHERsEnroled: id } },
         { new: true }
       )
     }
@@ -208,13 +208,13 @@ exports.getEnrolledCourses = async (req, res) => {
   }
 }
 
-exports.instructorDashboard = async (req, res) => {
+exports.NGOSUPPORTDashboard = async (req, res) => {
   try {
-    const courseDetails = await Course.find({ instructor: req.user.id })
+    const courseDetails = await Course.find({ NGOSUPPORT: req.user.id })
 
     const courseData = courseDetails.map((course) => {
-      const totalStudentsEnrolled =course.studentsEnrolled.length
-      const totalAmountGenerated = totalStudentsEnrolled * course.price
+      const totalSINGLEMOTHERsEnrolled =course.SINGLEMOTHERsEnrolled.length
+      const totalAmountGenerated = totalSINGLEMOTHERsEnrolled * course.price
 
       
       const courseDataWithStats = {
@@ -222,7 +222,7 @@ exports.instructorDashboard = async (req, res) => {
         courseName: course.courseName,
         courseDescription: course.courseDescription,
         
-        totalStudentsEnrolled,
+        totalSINGLEMOTHERsEnrolled,
         totalAmountGenerated,
       }
 

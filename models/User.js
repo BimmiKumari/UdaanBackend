@@ -22,7 +22,7 @@ const userSchema=new mongoose.Schema(
         },
         accountType:{
             type:String,
-            enum:["Admin","Student","Instructor"],
+            enum:["Admin","SINGLEMOTHER","NGOSUPPORT"],
             required:true,
         },
         active:{
@@ -53,6 +53,10 @@ const userSchema=new mongoose.Schema(
         image:{
             type:String,
             required:true,
+        },
+        myposts: {
+            type: Array,
+            required: false,
         },
         courseProgress:[
             {
